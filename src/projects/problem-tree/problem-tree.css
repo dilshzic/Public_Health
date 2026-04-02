@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
+
+.problem-tree-hub {
+  --trunk-color: #0ea5e9;
+  --root-color: #10b981;
+  --branch-color: #f43f5e;
+  
+  --glass-blur: blur(12px);
+  --glass-shadow: var(--shadow-lg);
+  
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--text-primary);
+  height: 100%;
+  width: 100%;
+}
+
+.problem-tree-hub .app-container {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+
+/* ReactFlow Customizations */
+.problem-tree-hub .react-flow__background {
+  background-color: var(--bg-main);
+}
+
+.problem-tree-hub .react-flow__edge-path {
+  stroke: var(--text-secondary);
+  stroke-width: 2;
+  opacity: 0.4;
+}
+
+.problem-tree-hub .react-flow__controls {
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.problem-tree-hub .react-flow__controls-button {
+  border-bottom: 1px solid var(--border-color);
+  background: transparent;
+  fill: var(--text-primary);
+}
+
+.problem-tree-hub .react-flow__controls-button:hover {
+  background: var(--bg-main);
+}
+
+/* Glass panel */
+.problem-tree-hub .sidebar {
+  width: 320px;
+  height: calc(100% - 40px);
+  margin: 20px;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-lg);
+  border-radius: 20px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  position: absolute;
+  left: 0;
+}
+
+.problem-tree-hub .header h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.problem-tree-hub .section-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.problem-tree-hub .project-select {
+  width: 100%;
+  appearance: none;
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.problem-tree-hub .project-select:hover {
+  border-color: var(--accent-primary);
+}
+
+.problem-tree-hub .project-rename-input {
+  flex: 1;
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: 1px solid var(--border-color);
+  padding: 4px 6px;
+  color: var(--text-primary);
+  font-size: 0.8125rem;
+  outline: none;
+}
+
+.problem-tree-hub .form-group input, 
+.problem-tree-hub .form-group textarea, 
+.problem-tree-hub .form-group select {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  outline: none;
+}
+
+.problem-tree-hub .btn {
+  background: var(--accent-primary);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.problem-tree-hub .btn-secondary {
+  background: var(--bg-main);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+/* Custom Nodes */
+.problem-tree-hub .custom-node {
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--bg-sidebar);
+  border: 2px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.problem-tree-hub .custom-node.selected {
+  border-color: var(--accent-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.problem-tree-hub .node-label {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Node Handle styles */
+.problem-tree-hub .react-flow__handle {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-primary);
+  border: 2px solid var(--bg-sidebar);
+}
+
+.problem-tree-hub .btn-artistic {
+  background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+}

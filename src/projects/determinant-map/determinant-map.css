@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
+
+.determinant-map-hub {
+  --node-individual-bg: var(--bg-main);
+  --node-individual-border: var(--text-secondary);
+  --node-lifestyle-bg: #f0fdf4;
+  --node-lifestyle-border: #22c55e;
+  --node-social-bg: #fefce8;
+  --node-social-border: #eab308;
+  --node-working-bg: #fff7ed;
+  --node-working-border: #f97316;
+  --node-structural-bg: #faf5ff;
+  --node-structural-border: #a855f7;
+  --node-outcome-bg: #fff1f2;
+  --node-outcome-border: #f43f5e;
+
+  --edge-neutral: var(--text-secondary);
+  --edge-positive: #10b981;
+  --edge-negative: #ef4444;
+
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--text-primary);
+  height: 100%;
+  width: 100%;
+}
+
+[data-theme='dark'] .determinant-map-hub {
+  --node-lifestyle-bg: #064e3b20;
+  --node-lifestyle-border: #10b981;
+  --node-social-bg: #713f1220;
+  --node-social-border: #eab308;
+  --node-working-bg: #7c2d1220;
+  --node-working-border: #f97316;
+  --node-structural-bg: #4c1d9520;
+  --node-structural-border: #a855f7;
+  --node-outcome-bg: #88133720;
+  --node-outcome-border: #f43f5e;
+}
+
+.determinant-map-hub .app-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+}
+
+/* ReactFlow Overrides */
+.determinant-map-hub .react-flow__background {
+  background-color: var(--bg-main);
+}
+
+.determinant-map-hub .react-flow__edge-path {
+  stroke: var(--edge-neutral);
+  stroke-width: 1.5;
+  transition: all 0.2s;
+  opacity: 0.6;
+}
+
+.determinant-map-hub .react-flow__edge.edge-positive .react-flow__edge-path { stroke: var(--edge-positive); stroke-width: 2; opacity: 1; }
+.determinant-map-hub .react-flow__edge.edge-negative .react-flow__edge-path { stroke: var(--edge-negative); stroke-width: 2; opacity: 1; }
+.determinant-map-hub .react-flow__edge.selected .react-flow__edge-path { stroke-width: 3; stroke: var(--accent-primary); }
+
+.determinant-map-hub .react-flow__controls {
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+/* Custom Node Styles */
+.determinant-map-hub .determinant-node {
+  padding: 12px 20px;
+  border-radius: 16px;
+  background: var(--bg-sidebar);
+  border: 1.8px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 150px;
+  text-align: center;
+  position: relative;
+}
+
+.determinant-map-hub .node-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  outline: none;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: center;
+}
+
+.determinant-map-hub .node-type-badge {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* Minimalist Handle Styles */
+.determinant-map-hub .react-flow__handle.subtle-handle {
+  width: 8px;
+  height: 8px;
+  border: 2px solid var(--border-color);
+  background: var(--bg-sidebar);
+  transition: all 0.25s ease;
+  opacity: 0;
+}
+
+.determinant-map-hub .determinant-node:hover .react-flow__handle.subtle-handle,
+.determinant-map-hub .determinant-node.selected .react-flow__handle.subtle-handle {
+  opacity: 1;
+}
+
+/* Sidebar Styles */
+.determinant-map-hub .sidebar {
+  width: 320px;
+  height: calc(100% - 40px);
+  margin: 20px;
+  background: var(--bg-sidebar);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-lg);
+  border-radius: 20px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  position: absolute;
+  left: 0;
+}
+
+.determinant-map-hub .sidebar h2 { font-family: 'Outfit', sans-serif; font-size: 1.3rem; margin: 0; color: var(--text-primary); font-weight: 700; }
+.determinant-map-hub .sidebar p { font-size: 0.85rem; color: var(--text-secondary); margin: 0; }
+
+.determinant-map-hub .sidebar-tabs {
+  display: flex;
+  background: var(--bg-main);
+  padding: 4px;
+  border-radius: 12px;
+}
+
+.determinant-map-hub .tab-button {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  background: transparent;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.determinant-map-hub .tab-button.active {
+  background: var(--bg-sidebar);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.determinant-map-hub .project-dropdown, 
+.determinant-map-hub .settings-input {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.determinant-map-hub .tool-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  transition: all 0.15s;
+}
+
+.determinant-map-hub .tool-button:hover { background: var(--bg-sidebar); transform: translateY(-1px); border-color: var(--accent-primary); }
+
+.determinant-map-hub .tool-button.primary {
+  background: var(--accent-primary);
+  color: white;
+  border: none;
+  margin-top: auto;
+}
+
+.determinant-map-hub .export-btn {
+  background: var(--bg-main);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 8px !important;
+  justify-content: center;
+}
+
+.determinant-map-hub .export-btn:hover {
+  background: var(--accent-primary) !important;
+  color: white !important;
+}
+
+.determinant-map-hub .category-manage-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--bg-main);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
