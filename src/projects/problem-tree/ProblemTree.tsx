@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import ReactFlow, {
   addEdge,
-  Background,
   Controls,
   Connection,
   Edge,
@@ -9,11 +8,12 @@ import ReactFlow, {
   ReactFlowProvider,
   useNodesState,
   useEdgesState,
-  BackgroundVariant,
+  updateEdge,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { nodeTypes, NodeType, Project } from './CustomNodes';
 import { OrganicEdge } from './OrganicEdge';
+import DeletableEdge from './DeletableEdge';
 import { useExport } from '../../hooks/useExport';
 import Sidebar from './Sidebar';
 import { TreeRenderer } from './TreeRenderer';
@@ -60,6 +60,7 @@ const initialEdges: Edge[] = [
 
 const edgeTypes = {
   organic: OrganicEdge,
+  deletable: DeletableEdge,
 };
 
 const ProblemTree: React.FC = () => {
@@ -158,19 +159,26 @@ const ProblemTree: React.FC = () => {
 
   const onCreateProject = useCallback(() => {
     const newId = `project-${Date.now()}`;
+    const newTrunk: Node = {
+      id: `trunk-${Date.now()}`,
+      type: 'trunk',
+      data: { label: 'New Core Problem', description: 'Describe the main problem here.' },
+      position: { x: 50, y: 250 },
+    };
+    
     const newProject: Project = {
       id: newId,
       name: 'New Problem Tree',
-      nodes: initialNodes,
-      edges: initialEdges,
+      nodes: [newTrunk],
+      edges: [],
       isArtistic: false,
       updatedAt: Date.now()
     };
     
     setProjects(prev => [...prev, newProject]);
     setCurrentProjectId(newId);
-    setNodes(initialNodes);
-    setEdges(initialEdges);
+    setNodes([newTrunk]);
+    setEdges([]);
     setIsArtistic(false);
   }, [setNodes, setEdges]);
 
@@ -195,10 +203,35 @@ const ProblemTree: React.FC = () => {
     }
   }, [projects, currentProjectId, onSwitchProject]);
 
-  const onConnect = useCallback(
-    (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
+  const onReconnect = useCallback(
+    (oldEdge: Edge, newConnection: Connection) => setEdges((els) => updateEdge(oldEdge, newConnection, els)),
     [setEdges]
   );
+  
+  const onConnect = useCallback(
+    (params: Edge | Connection) => setEdges((eds) => addEdge({ ...params, type: 'deletable' }, eds)),
+    [setEdges]
+  );
+
+  const isValidConnection = useCallback((connection: Connection) => {
+    const source = nodes.find(n => n.id === connection.source);
+    const target = nodes.find(n => n.id === connection.target);
+    if (!source || !target) return false;
+
+    const sourceType = source.type as string;
+    const targetType = target.type as string;
+
+    // Direct Root -> Branch (Causes -> Consequences) BLOCKED
+    if ((sourceType === 'root' && targetType === 'branch') || 
+        (sourceType === 'branch' && targetType === 'root')) {
+      return false;
+    }
+
+    // Cycles within same node BLOCKED
+    if (connection.source === connection.target) return false;
+
+    return true;
+  }, [nodes]);
 
   const onNodeClick = useCallback((_: React.MouseEvent, node: Node) => {
     setNodes((nds) => nds.map((n) => ({ ...n, selected: n.id === node.id })));
@@ -292,18 +325,21 @@ const ProblemTree: React.FC = () => {
       <div style={{ flex: 1, height: '100%' }} id="problem-tree-container">
         <ReactFlow
           nodes={nodes}
-          edges={isArtistic ? [] : edges}
+          edges={edges}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           onNodeClick={onNodeClick}
           onPaneClick={onPaneClick}
+          onReconnect={onReconnect}
+          isValidConnection={isValidConnection}
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
           fitView
+          snapToGrid={true}
+          snapGrid={[20, 20]}
         >
           {isArtistic && <TreeRenderer />}
-          <Background color="#334155" gap={20} variant={isArtistic ? BackgroundVariant.Lines : BackgroundVariant.Dots} />
           <Controls />
         </ReactFlow>
       </div>

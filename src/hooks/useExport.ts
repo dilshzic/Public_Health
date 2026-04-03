@@ -19,25 +19,40 @@ export const useExport = () => {
         'react-flow__controls',
         'react-flow__attribution',
         'react-flow__panel',
+        'sidebar',
+        'hub-header',
+        'nav-group',
+        'theme-toggle-btn'
       ];
       return !exclusionClasses.some((className) => node.classList?.contains(className));
     };
 
     const options = {
-      backgroundColor: '#0f172a',
+      backgroundColor: '#ffffff',
       filter: filter as any,
-      quality: 0.95,
-      pixelRatio: 2, // High resolution for professional quality
+      quality: 1,
+      pixelRatio: 3, // Ultra-high resolution
     };
 
     let dataUrl = '';
     try {
+      // Temporarily force light theme for the capture
+      const originalTheme = element.getAttribute('data-theme');
+      element.setAttribute('data-theme', 'light');
+
       if (format === 'png') {
         dataUrl = await toPng(element, options);
       } else if (format === 'jpeg') {
         dataUrl = await toJpeg(element, options);
       } else if (format === 'svg') {
         dataUrl = await toSvg(element, options);
+      }
+
+      // Restore original theme
+      if (originalTheme) {
+        element.setAttribute('data-theme', originalTheme);
+      } else {
+        element.removeAttribute('data-theme');
       }
 
       if (!dataUrl || dataUrl.length < 100) {

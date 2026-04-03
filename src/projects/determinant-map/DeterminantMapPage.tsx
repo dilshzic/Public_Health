@@ -1,7 +1,6 @@
 import { useCallback, useRef, useState, useEffect } from 'react';
 import ReactFlow, {
   addEdge,
-  Background,
   Controls,
   Connection,
   Edge,
@@ -398,11 +397,24 @@ const DeterminantMapPage = () => {
       fileName = fileName.replace('.png', '.svg');
     }
 
+    // Temporarily force light theme for the capture
+    const originalTheme = reactFlowWrapper.current.getAttribute('data-theme');
+    reactFlowWrapper.current.setAttribute('data-theme', 'light');
+
     exportFn(reactFlowWrapper.current, {
       backgroundColor: '#ffffff',
       quality: 1,
       pixelRatio: 2,
     }).then((dataUrl: string) => {
+      // Restore original theme
+      if (reactFlowWrapper.current) {
+        if (originalTheme) {
+          reactFlowWrapper.current.setAttribute('data-theme', originalTheme);
+        } else {
+          reactFlowWrapper.current.removeAttribute('data-theme');
+        }
+      }
+
       const link = document.createElement('a');
       link.download = fileName;
       link.href = dataUrl;
@@ -423,7 +435,7 @@ const DeterminantMapPage = () => {
   }, [setNodes]);
 
   return (
-    <div className="app-container" ref={reactFlowWrapper}>
+    <div className="app-container">
       <Sidebar 
         onAddNode={onAddNode} 
         onExport={onExport} 
@@ -446,7 +458,7 @@ const DeterminantMapPage = () => {
         onDeleteProject={onDeleteProject}
       />
       
-      <div style={{ flex: 1, height: '100%' }}>
+      <div style={{ flex: 1, height: '100%' }} ref={reactFlowWrapper}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -461,7 +473,6 @@ const DeterminantMapPage = () => {
           snapGrid={[15, 15]}
           selectNodesOnDrag={false}
         >
-          <Background color="#cbd5e1" gap={20} />
           <Controls />
         </ReactFlow>
       </div>

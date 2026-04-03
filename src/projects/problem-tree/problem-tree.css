@@ -169,18 +169,70 @@
   box-shadow: var(--shadow-md);
 }
 
+.problem-tree-hub .custom-node.artistic-hidden {
+  display: none !important;
+}
+
 .problem-tree-hub .node-label {
   font-family: 'Outfit', sans-serif;
   font-weight: 600;
   font-size: 1rem;
 }
 
+/* Artistic Mode specific overrides */
+.problem-tree-hub.artistic-mode .react-flow__edge {
+  visibility: hidden !important;
+}
+
+.problem-tree-hub.artistic-mode .react-flow__controls {
+  display: none;
+}
+
 /* Node Handle styles */
 .problem-tree-hub .react-flow__handle {
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
   background: var(--accent-primary);
-  border: 2px solid var(--bg-sidebar);
+  border: 2px solid white;
+  transition: all 0.2s;
+  cursor: crosshair;
+}
+
+.problem-tree-hub .react-flow__handle:hover {
+  transform: scale(1.4);
+  background: var(--accent-secondary);
+  box-shadow: 0 0 10px var(--accent-primary);
+}
+
+/* Edge Delete Button */
+.problem-tree-hub .edge-delete-btn {
+  width: 20px;
+  height: 20px;
+  background: #f43f5e;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.problem-tree-hub .edge-delete-btn:hover {
+  transform: scale(1.2);
+  background: #e11d48;
+}
+
+.problem-tree-hub .edge-label-text {
+  background: rgba(15, 23, 42, 0.8);
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: white;
+  font-size: 10px;
+  margin-top: 4px;
 }
 
 .problem-tree-hub .btn-artistic {
